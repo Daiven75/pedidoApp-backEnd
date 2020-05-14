@@ -1,19 +1,24 @@
 package com.lucasilva.pedidoapp;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
 import com.lucasilva.pedidoapp.domain.Cidade;
+import com.lucasilva.pedidoapp.domain.Cliente;
+import com.lucasilva.pedidoapp.domain.Endereco;
 import com.lucasilva.pedidoapp.domain.Estado;
 import com.lucasilva.pedidoapp.domain.Produto;
+import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.repositories.CidadeRepository;
+import com.lucasilva.pedidoapp.repositories.ClienteRepository;
+import com.lucasilva.pedidoapp.repositories.EnderecoRepository;
 import com.lucasilva.pedidoapp.repositories.EstadoRepository;
 import com.lucasilva.pedidoapp.repositories.ProdutoRepository;
 
@@ -31,7 +36,13 @@ public class PedidoappApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PedidoappApplication.class, args);
 	}
@@ -69,5 +80,38 @@ public class PedidoappApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3, cid4, cid5));
+		
+		Cliente c1 = new Cliente(
+				null, 
+				"Lucas", 
+				"lucas@lucas.con", 
+				"67383494102", 
+				TipoCliente.PESSOAFISICA);
+		
+		c1.getTelefones().addAll(Arrays.asList("989341021", "9898313410"));
+		
+		Endereco end1 = new Endereco(
+				null, 
+				"avenida sao vicente", 
+				"82", 
+				"Center TemTudo", 
+				"Santa rosa", 
+				"65054312", 
+				c1, 
+				cid1);
+		Endereco end2 = new Endereco(
+				null, 
+				"avenida das flores", 
+				"40", 
+				"Shopping Center", 
+				"Sol e mar", 
+				"65052312", 
+				c1, 
+				cid1);
+		
+		c1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		
+		clienteRepository.saveAll(Arrays.asList(c1));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 	}
 }
