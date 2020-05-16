@@ -1,5 +1,6 @@
 package com.lucasilva.pedidoapp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,13 +14,20 @@ import com.lucasilva.pedidoapp.domain.Cidade;
 import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.domain.Endereco;
 import com.lucasilva.pedidoapp.domain.Estado;
+import com.lucasilva.pedidoapp.domain.Pagamento;
+import com.lucasilva.pedidoapp.domain.PagamentoComBoleto;
+import com.lucasilva.pedidoapp.domain.PagamentoComCartao;
+import com.lucasilva.pedidoapp.domain.Pedido;
 import com.lucasilva.pedidoapp.domain.Produto;
+import com.lucasilva.pedidoapp.domain.enums.EstadoPagamento;
 import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.repositories.CidadeRepository;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
 import com.lucasilva.pedidoapp.repositories.EnderecoRepository;
 import com.lucasilva.pedidoapp.repositories.EstadoRepository;
+import com.lucasilva.pedidoapp.repositories.PagamentoRepository;
+import com.lucasilva.pedidoapp.repositories.PedidoRepository;
 import com.lucasilva.pedidoapp.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -42,6 +50,12 @@ public class PedidoappApplication implements CommandLineRunner {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(PedidoappApplication.class, args);
@@ -88,6 +102,13 @@ public class PedidoappApplication implements CommandLineRunner {
 				"67383494102", 
 				TipoCliente.PESSOAFISICA);
 		
+		Cliente c2 = new Cliente(
+				null, 
+				"Priscila", 
+				"priscila@priscila.con", 
+				"61734323310", 
+				TipoCliente.PESSOAFISICA);
+		
 		c1.getTelefones().addAll(Arrays.asList("989341021", "9898313410"));
 		
 		Endereco end1 = new Endereco(
@@ -113,5 +134,20 @@ public class PedidoappApplication implements CommandLineRunner {
 		
 		clienteRepository.saveAll(Arrays.asList(c1));
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/03/2020 10:32"), c1, end1);
+		Pedido ped2 = new Pedido(null, sdf.parse("12/04/2020 17:11"), c1, end2);
+		
+		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 5);
+		ped1.setPagamento(pag1);
+		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, null, sdf.parse("17/04/2020 00:00"));
+		ped2.setPagamento(pag2);
+		
+		c1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
 	}
 }
