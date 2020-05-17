@@ -23,4 +23,9 @@ public class CategoriaService {
 						+ "Id: " + id + 
 						", Tipo: " + Categoria.class.getName()));
 	}
+	
+	public Categoria cadastraCategoria(Categoria categoria) {
+		categoria.setId(null); // garantido da requisicao seja nulo, para nao realizar update
+		return categoriaRepository.save(categoria);
+	}
 }
