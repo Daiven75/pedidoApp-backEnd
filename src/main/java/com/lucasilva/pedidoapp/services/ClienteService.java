@@ -15,7 +15,7 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-	public Cliente buscarCliente(Long id) {
+	public Cliente getClienteId(Long id) {
 		Optional<Cliente> optionalCliente = clienteRepository.findById(id);
 		return optionalCliente.orElseThrow(
 				() -> new ClienteNotFoundException(

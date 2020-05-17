@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.lucasilva.pedidoapp.services.exceptions.CategoriaNotFoundException;
 import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;
+import com.lucasilva.pedidoapp.services.exceptions.PedidoNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -29,6 +30,19 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(ClienteNotFoundException.class)
 	public ResponseEntity<StandardError> categoriaNotFound(
 			ClienteNotFoundException e,
+			HttpServletRequest request) {
+		
+		StandardError err = new StandardError(
+				HttpStatus.NOT_FOUND.value(), 
+				e.getMessage(), 
+				System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+	}
+	
+	@ExceptionHandler(PedidoNotFoundException.class)
+	public ResponseEntity<StandardError> categoriaNotFound(
+			PedidoNotFoundException e,
 			HttpServletRequest request) {
 		
 		StandardError err = new StandardError(
