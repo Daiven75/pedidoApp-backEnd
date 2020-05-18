@@ -1,6 +1,10 @@
 package com.lucasilva.pedidoapp.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
+import com.lucasilva.pedidoapp.dto.CategoriaDTO;
 import com.lucasilva.pedidoapp.services.CategoriaService;
 
 @RestController
@@ -50,5 +55,14 @@ public class CategoriaResource {
 	public ResponseEntity<Void> deletaCategoria(@PathVariable Long id) {
 		categoriaService.deletaCategoria(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping()
+	public ResponseEntity<List<CategoriaDTO>> buscarTodos() {
+		List<Categoria> listaCategoria = categoriaService.buscaTodos();
+		List<CategoriaDTO> listaCategoriaDTO = listaCategoria.stream()
+				.map(obj -> new CategoriaDTO(obj))
+				.collect(Collectors.toList());
+		return ResponseEntity.ok().body(listaCategoriaDTO);
 	}
 }
