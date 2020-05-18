@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
+import com.lucasilva.pedidoapp.dto.CategoriaDTO;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.services.exceptions.CategoriaNotFoundException;
 import com.lucasilva.pedidoapp.services.exceptions.DataIntegrityException;
@@ -56,5 +57,9 @@ public class CategoriaService {
 	public Page<Categoria> buscaPagina(Integer pagina, Integer linhasPorPagina, String ordenaPor, String direcao) {
 		PageRequest paginaRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direcao), ordenaPor);
 		return categoriaRepository.findAll(paginaRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
 	}
 }
