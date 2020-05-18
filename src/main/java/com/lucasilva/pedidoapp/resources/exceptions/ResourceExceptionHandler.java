@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.lucasilva.pedidoapp.services.exceptions.CategoriaNotFoundException;
 import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;
+import com.lucasilva.pedidoapp.services.exceptions.DataIntegrityException;
 import com.lucasilva.pedidoapp.services.exceptions.PedidoNotFoundException;
 
 @ControllerAdvice
@@ -51,5 +52,18 @@ public class ResourceExceptionHandler {
 				System.currentTimeMillis());
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+	}
+	
+	@ExceptionHandler(DataIntegrityException.class)
+	public ResponseEntity<StandardError> categoriaNotFound(
+			DataIntegrityException e,
+			HttpServletRequest request) {
+		
+		StandardError err = new StandardError(
+				HttpStatus.BAD_REQUEST.value(), 
+				e.getMessage(), 
+				System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 }

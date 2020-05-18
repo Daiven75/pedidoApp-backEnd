@@ -3,11 +3,13 @@ package com.lucasilva.pedidoapp.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.services.exceptions.CategoriaNotFoundException;
+import com.lucasilva.pedidoapp.services.exceptions.DataIntegrityException;
 
 @Service
 public class CategoriaService {
@@ -32,5 +34,14 @@ public class CategoriaService {
 	public Categoria atualizaCategoria(Categoria categoria) {
 		buscaPorId(categoria.getId());
 		return categoriaRepository.save(categoria);
+	}
+
+	public void deletaCategoria(Long id) {
+		buscaPorId(id);
+		try {
+			categoriaRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir categoria que possua produtos!");
+		}
 	}
 }
