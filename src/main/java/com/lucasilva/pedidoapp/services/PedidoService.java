@@ -15,7 +15,7 @@ public class PedidoService {
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
-	public Pedido getPedidoId(Long id) {
+	public Pedido buscaPorId(Long id) {
 		Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
 		return optionalPedido.orElseThrow(
 				() -> new PedidoNotFoundException(
