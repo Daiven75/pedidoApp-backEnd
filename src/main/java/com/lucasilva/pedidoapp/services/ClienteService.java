@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Cidade;
@@ -15,6 +16,7 @@ import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
 import com.lucasilva.pedidoapp.repositories.EnderecoRepository;
 import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;
+import com.lucasilva.pedidoapp.services.exceptions.DataIntegrityException;
 
 @Service
 public class ClienteService {
@@ -89,5 +91,14 @@ public class ClienteService {
 	private void atualizaDados(Cliente cliente, Cliente atualizaCliente) {
 		cliente.setNome(atualizaCliente.getNome());
 		cliente.setEmail(atualizaCliente.getEmail());
+	}
+
+	public void deletaCliente(Long id) {
+		buscaPorId(id);
+		try {
+			clienteRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possuir excluir o cliente pois o mesmo possui pedidos!");
+		}
 	}
 }
