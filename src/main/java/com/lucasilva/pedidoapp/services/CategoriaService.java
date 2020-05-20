@@ -3,14 +3,15 @@ package com.lucasilva.pedidoapp.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
+import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.dto.CategoriaDTO;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.services.exceptions.CategoriaNotFoundException;
@@ -36,8 +37,9 @@ public class CategoriaService {
 		return categoriaRepository.save(categoria);
 	}
 
-	public Categoria atualizaCategoria(Categoria categoria) {
-		buscaPorId(categoria.getId());
+	public Categoria atualizaCategoria(Categoria atualizaCategoria) {
+		Categoria categoria = buscaPorId(atualizaCategoria.getId());
+		atualizaDados(categoria, atualizaCategoria);
 		return categoriaRepository.save(categoria);
 	}
 
@@ -61,5 +63,9 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
 		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+	}
+	
+	private void atualizaDados(Categoria categoria, Categoria atualizaCategoria) {
+		categoria.setNome(atualizaCategoria.getNome());
 	}
 }
