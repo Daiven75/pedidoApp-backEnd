@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
-import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.dto.CategoriaDTO;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.services.exceptions.CategoriaNotFoundException;
