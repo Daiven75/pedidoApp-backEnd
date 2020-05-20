@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lucasilva.pedidoapp.domain.Cidade;
 import com.lucasilva.pedidoapp.domain.Cliente;
@@ -34,6 +35,7 @@ public class ClienteService {
 						"Cliente com id = " + id + " não encontrado!"));
 	}
 	
+	@Transactional
 	public Cliente cadastraCliente(Cliente cliente) {
 		cliente.setId(null); // garantido da requisicao seja nulo, para nao realizar update
 		cliente = clienteRepository.save(cliente);
