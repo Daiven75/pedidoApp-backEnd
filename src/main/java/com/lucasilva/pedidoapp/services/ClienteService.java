@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,9 @@ public class ClienteService {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	public Cliente buscaPorId(Long id) {
 		Optional<Cliente> optionalCliente = clienteRepository.findById(id);
@@ -60,7 +64,8 @@ public class ClienteService {
 	public Cliente fromDTO(ClienteSaveDTO clienteSaveDTO) {
 		Cliente cliente = new Cliente(
 				null, 
-				clienteSaveDTO.getNome(), 
+				clienteSaveDTO.getNome(),
+				passwordEncoder.encode(clienteSaveDTO.getSenha()),
 				clienteSaveDTO.getEmail(), 
 				clienteSaveDTO.getCpfOuCnpj(), 
 				TipoCliente.toEnum(clienteSaveDTO.getTipoCliente()));

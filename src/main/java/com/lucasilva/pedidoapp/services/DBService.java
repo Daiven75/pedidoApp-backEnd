@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
@@ -59,6 +60,9 @@ public class DBService {
 	
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	public void instantiateTestDatabase() throws ParseException {
 		
@@ -127,6 +131,7 @@ public class DBService {
 		Cliente c1 = new Cliente(
 				null, 
 				"Lucas", 
+				passwordEncoder.encode("senhaQualquer"),
 				"75lucas.lucas.slima@gmail.com", 
 				"67383494102", 
 				TipoCliente.PESSOAFISICA);
