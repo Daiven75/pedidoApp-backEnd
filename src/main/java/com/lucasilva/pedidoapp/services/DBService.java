@@ -20,6 +20,7 @@ import com.lucasilva.pedidoapp.domain.PagamentoComCartao;
 import com.lucasilva.pedidoapp.domain.Pedido;
 import com.lucasilva.pedidoapp.domain.Produto;
 import com.lucasilva.pedidoapp.domain.enums.EstadoPagamento;
+import com.lucasilva.pedidoapp.domain.enums.Perfil;
 import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.repositories.CidadeRepository;
@@ -135,8 +136,18 @@ public class DBService {
 				"75lucas.lucas.slima@gmail.com", 
 				"67383494102", 
 				TipoCliente.PESSOAFISICA);
-		
 		c1.getTelefones().addAll(Arrays.asList("989341021", "9898313410"));
+		
+		Cliente c2 = new Cliente(
+				null, 
+				"Priscila", 
+				passwordEncoder.encode("senhaQualquer"),
+				"75lucas.lucas.slima2@gmail.com", 
+				"61734323310", 
+				TipoCliente.PESSOAFISICA);
+		c2.addPerfil(Perfil.ADMIN);
+		c2.getTelefones().addAll(Arrays.asList("98988424043", "98985147336"));
+		
 		
 		Endereco end1 = new Endereco(
 				null, 
@@ -157,10 +168,21 @@ public class DBService {
 				c1, 
 				cid1);
 		
-		c1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		Endereco end3 = new Endereco(
+				null, 
+				"avenida Jeronimo de Albuquerque", 
+				"12", 
+				"Potiguar", 
+				"Cohama", 
+				"650068112", 
+				c2, 
+				cid4);
 		
-		clienteRepository.saveAll(Arrays.asList(c1));
-		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+		c1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		c2.getEnderecos().addAll(Arrays.asList(end3));
+		
+		clienteRepository.saveAll(Arrays.asList(c1, c2));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
