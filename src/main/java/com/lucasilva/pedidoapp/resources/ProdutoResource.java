@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucasilva.pedidoapp.domain.Produto;
-import com.lucasilva.pedidoapp.domain.ProdutoDTO;
+import com.lucasilva.pedidoapp.dto.ProdutoDTO;
 import com.lucasilva.pedidoapp.resources.utils.URI;
 import com.lucasilva.pedidoapp.services.ProdutoService;
 

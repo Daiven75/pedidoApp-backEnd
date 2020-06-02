@@ -1,4 +1,4 @@
-package com.lucasilva.pedidoapp.domain;
+package com.lucasilva.pedidoapp.dto;
 
 import java.io.Serializable;
 
@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.services.validation.ClienteUpdate;
 
 @ClienteUpdate

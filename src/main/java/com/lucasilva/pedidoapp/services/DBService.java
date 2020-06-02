@@ -133,7 +133,7 @@ public class DBService {
 				null, 
 				"Lucas", 
 				passwordEncoder.encode("senhaQualquer"),
-				"75lucas.lucas.slima@gmail.com", 
+				"75.lucas.slima@gmail.com", 
 				"67383494102", 
 				TipoCliente.PESSOAFISICA);
 		c1.getTelefones().addAll(Arrays.asList("989341021", "9898313410"));
@@ -142,7 +142,7 @@ public class DBService {
 				null, 
 				"Priscila", 
 				passwordEncoder.encode("senhaQualquer"),
-				"75lucas.lucas.slima2@gmail.com", 
+				"75.lucas.slima2@gmail.com", 
 				"61734323310", 
 				TipoCliente.PESSOAFISICA);
 		c2.addPerfil(Perfil.ADMIN);

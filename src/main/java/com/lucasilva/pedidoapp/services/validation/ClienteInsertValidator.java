@@ -9,8 +9,8 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lucasilva.pedidoapp.domain.Cliente;
-import com.lucasilva.pedidoapp.domain.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
+import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
 import com.lucasilva.pedidoapp.resources.exceptions.FieldMessage;
 import com.lucasilva.pedidoapp.services.validation.utils.BR;

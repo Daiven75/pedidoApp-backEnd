@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.lucasilva.pedidoapp.domain.Cliente;
-import com.lucasilva.pedidoapp.domain.ClienteDTO;
+import com.lucasilva.pedidoapp.dto.ClienteDTO;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
 import com.lucasilva.pedidoapp.resources.exceptions.FieldMessage;
 

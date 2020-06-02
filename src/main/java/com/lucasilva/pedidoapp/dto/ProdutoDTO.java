@@ -1,6 +1,8 @@
-package com.lucasilva.pedidoapp.domain;
+package com.lucasilva.pedidoapp.dto;
 
 import java.io.Serializable;
+
+import com.lucasilva.pedidoapp.domain.Produto;
 
 public class ProdutoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;

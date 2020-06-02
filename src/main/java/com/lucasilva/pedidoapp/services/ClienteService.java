@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lucasilva.pedidoapp.domain.Cidade;
 import com.lucasilva.pedidoapp.domain.Cliente;
-import com.lucasilva.pedidoapp.domain.ClienteDTO;
-import com.lucasilva.pedidoapp.domain.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.domain.Endereco;
 import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
+import com.lucasilva.pedidoapp.dto.ClienteDTO;
+import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
 import com.lucasilva.pedidoapp.repositories.EnderecoRepository;
 import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;

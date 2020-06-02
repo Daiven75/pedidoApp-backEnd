@@ -1,4 +1,4 @@
-package com.lucasilva.pedidoapp.domain;
+package com.lucasilva.pedidoapp.dto;
 
 import java.io.Serializable;
 

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasilva.pedidoapp.domain.Cliente;
-import com.lucasilva.pedidoapp.domain.ClienteDTO;
-import com.lucasilva.pedidoapp.domain.ClienteSaveDTO;
+import com.lucasilva.pedidoapp.dto.ClienteDTO;
+import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.services.ClienteService;
 
 @RestController
