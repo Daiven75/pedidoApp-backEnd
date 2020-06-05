@@ -15,6 +15,7 @@ import com.lucasilva.pedidoapp.domain.ItemPedido;
 import com.lucasilva.pedidoapp.domain.PagamentoComBoleto;
 import com.lucasilva.pedidoapp.domain.Pedido;
 import com.lucasilva.pedidoapp.domain.enums.EstadoPagamento;
+import com.lucasilva.pedidoapp.domain.enums.Perfil;
 import com.lucasilva.pedidoapp.repositories.ItemPedidoRepository;
 import com.lucasilva.pedidoapp.repositories.PagamentoRepository;
 import com.lucasilva.pedidoapp.repositories.PedidoRepository;
@@ -47,7 +48,13 @@ public class PedidoService {
 	private EmailService emailService;
 	
 	public Pedido buscaPorId(Long id) {
+		UserSS user = UserService.authenticated();
 		Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
+		
+		if(user.getId() != optionalPedido.get().getCliente().getId() && !user.hasRole(Perfil.ADMIN)) {
+			throw new AuthorizationException("acesso negado!");
+		}
+		
 		return optionalPedido.orElseThrow(
 				() -> new PedidoNotFoundException(
 						"Pedido de id = " + id + " não encontrado!"));

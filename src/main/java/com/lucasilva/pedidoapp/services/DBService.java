@@ -188,28 +188,37 @@ public class DBService {
 		
 		Pedido ped1 = new Pedido(null, sdf.parse("30/03/2020 10:32"), c1, end1);
 		Pedido ped2 = new Pedido(null, sdf.parse("12/04/2020 17:11"), c1, end2);
+		Pedido ped3 = new Pedido(null, sdf.parse("18/05/2020 13:29"), c2, end3);
 		
 		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 5);
 		ped1.setPagamento(pag1);
 		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, null, sdf.parse("17/04/2020 00:00"));
 		ped2.setPagamento(pag2);
+		Pagamento pag3 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped3, 4);
+		ped3.setPagamento(pag3);
 		
 		c1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		c2.getPedidos().addAll(Arrays.asList(ped3));
 		
-		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
-		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3));
+		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2, pag3));
 		
 		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 3550.00);
 		ItemPedido ip2 = new ItemPedido(ped2, p2, 20.00, 1, 120.00);
 		ItemPedido ip3 = new ItemPedido(ped1, p3, 40.00, 2, 420.00);
+		ItemPedido ip4 = new ItemPedido(ped3, p9, 0.0, 1, 9500.00);
+		ItemPedido ip5 = new ItemPedido(ped3, p11, 0.0, 2, 3200.00);
 		
 		ped1.getItens().addAll(Arrays.asList(ip1, ip3));
 		ped2.getItens().addAll(Arrays.asList(ip2));
+		ped3.getItens().addAll(Arrays.asList(ip4, ip5));
 		
 		p1.getItens().addAll(Arrays.asList(ip1));
 		p2.getItens().addAll(Arrays.asList(ip2));
 		p3.getItens().addAll(Arrays.asList(ip3));
+		p9.getItens().addAll(Arrays.asList(ip4));
+		p11.getItens().addAll(Arrays.asList(ip5));
 		
-		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3, ip4, ip5));
 	}
 }
