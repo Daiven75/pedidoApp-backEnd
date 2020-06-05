@@ -12,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lucasilva.pedidoapp.domain.Cidade;
 import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.domain.Endereco;
+import com.lucasilva.pedidoapp.domain.enums.Perfil;
 import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
 import com.lucasilva.pedidoapp.dto.ClienteDTO;
 import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
 import com.lucasilva.pedidoapp.repositories.EnderecoRepository;
+import com.lucasilva.pedidoapp.security.UserSS;
+import com.lucasilva.pedidoapp.services.exceptions.AuthorizationException;
 import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;
 import com.lucasilva.pedidoapp.services.exceptions.DataIntegrityException;
 
@@ -33,6 +36,13 @@ public class ClienteService {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	public Cliente buscaPorId(Long id) {
+		
+		UserSS user = UserService.authenticated();
+		
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		
 		Optional<Cliente> optionalCliente = clienteRepository.findById(id);
 		return optionalCliente.orElseThrow(
 				() -> new ClienteNotFoundException(
