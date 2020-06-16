@@ -12,9 +12,9 @@ target/
 .settings
 .springBeans
 .sts4-cache
-pedidoApp-backEnd/src/main/resources/application-dev.properties/*
-pedidoApp-backEnd/src/main/resources/application-prod.properties/*
-pedidoApp-backEnd/src/main/resources/application.properties/*
+src/main/resources/application-dev.properties/*
+src/main/resources/application-prod.properties/*
+src/main/resources/application.properties/*
 
 ### IntelliJ IDEA ###
 .idea
