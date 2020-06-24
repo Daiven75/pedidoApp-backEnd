@@ -54,6 +54,8 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 	
+	private String imagemURL;
+	
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE);
 	}
@@ -178,6 +180,15 @@ public class Cliente implements Serializable {
 	
 	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+
+	public String getImagemURL() {
+		return imagemURL;
+	}
+	
+	public void setImagemURL(String imagemURL) {
+		this.imagemURL = imagemURL;
 	}
 	
 	public void addPerfil(Perfil perfil) {
