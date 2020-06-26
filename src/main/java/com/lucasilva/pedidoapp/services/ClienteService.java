@@ -1,10 +1,12 @@
 package com.lucasilva.pedidoapp.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,12 @@ public class ClienteService {
 	
 	@Autowired
 	private S3Service s3Service;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Value("${img.prefix.cliente.profile}")
+	private String prefix;
 	
 	public Cliente buscaPorId(Long id) {
 		
@@ -131,10 +139,9 @@ public class ClienteService {
 			throw new AuthorizationException("Acesso negado!");
 		}
 		
-		URI uri = s3Service.uploadFile(multipartFile);
-		Optional<Cliente> cliente = clienteRepository.findById(user.getId());
-		cliente.get().setImagemURL(uri.toString());
-		clienteRepository.save(cliente.get());
-		return uri;
+		BufferedImage img = imageService.getJpgImageFromFile(multipartFile);
+		String fileName = prefix + user.getId() + ".jpg";
+		
+		return s3Service.uploadFile(fileName, imageService.getInputStream(img, "jpg"), "image");
 	}
 }
