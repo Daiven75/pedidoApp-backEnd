@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.validation.metadata.ValidateUnwrappedValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,12 @@ public class ClienteResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cliente> buscaPorId(@PathVariable Long id) {
 		Cliente cliente = clienteService.buscaPorId(id);
+		return ResponseEntity.ok().body(cliente);
+	}
+	
+	@GetMapping(value = "/email")
+	public ResponseEntity<Cliente> findByEmail(@RequestParam(value = "value") String email) {
+		Cliente cliente = clienteService.buscaPorEmail(email);
 		return ResponseEntity.ok().body(cliente);
 	}
 	
