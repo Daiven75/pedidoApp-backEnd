@@ -1,9 +1,12 @@
 package com.lucasilva.pedidoapp.dto;
 
+import java.io.Serializable;
+
 import com.lucasilva.pedidoapp.domain.Estado;
 
-public class EstadoDTO {
-
+public class EstadoDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String nome;
 	
