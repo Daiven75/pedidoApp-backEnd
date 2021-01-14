@@ -1,7 +1,6 @@
 package com.lucasilva.pedidoapp.resources;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.lucasilva.pedidoapp.domain.Produto;
 import com.lucasilva.pedidoapp.dto.ProdutoDTO;
 import com.lucasilva.pedidoapp.resources.utils.URI;
 import com.lucasilva.pedidoapp.services.ProdutoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -22,6 +21,7 @@ public class ProdutoResource {
 	@Autowired
 	private ProdutoService produtoService;
 
+	@ApiOperation(value = "Busca todos os produtos com paginação")
 	@GetMapping()
 	public ResponseEntity<Page<ProdutoDTO>> buscaPagina(
 			@RequestParam(value = "nome", defaultValue = "") String nome,
