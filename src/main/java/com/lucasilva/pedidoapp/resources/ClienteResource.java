@@ -3,7 +3,9 @@ package com.lucasilva.pedidoapp.resources;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.dto.ClienteDTO;
 import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.services.ClienteService;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -62,10 +66,8 @@ public class ClienteResource {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Cliente> atualizaCliente(
 			@PathVariable Long id,
-			@Valid @RequestBody ClienteDTO ClienteDTO) {
-		Cliente Cliente = clienteService.fromDTO(ClienteDTO);
-		Cliente.setId(id);
-		Cliente = clienteService.atualizaCliente(Cliente);
+			@Valid @RequestBody ClienteDTO clienteDTO) {
+		clienteService.atualizaCliente(id, clienteDTO);
 		return ResponseEntity.noContent().build();
 	}
 	

@@ -14,9 +14,6 @@ import com.lucasilva.pedidoapp.services.validation.ClienteUpdate;
 public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
-	
-	@NotEmpty(message = "Preenchimento obrigatório")
 	@Length(min = 5, max = 120, message = "Tamanho deve conter entre 5 a 120 caracteres")
 	private String nome;
 	
@@ -28,23 +25,13 @@ public class ClienteDTO implements Serializable {
 	}
 	
 	public ClienteDTO(Cliente cliente) {
-		id = cliente.getId();
 		nome = cliente.getNome();
 		email = cliente.getEmail();
 	}
 	
-	public ClienteDTO(Long id, String nome, String email) {
-		this.id = id;
+	public ClienteDTO(String nome, String email) {
 		this.nome = nome;
 		this.email = email;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getNome() {

@@ -73,9 +73,9 @@ public class ClienteService {
 		return cliente;
 	}
 
-	public Cliente atualizaCliente(Cliente atualizaCliente) {
-		Cliente cliente = buscaPorId(atualizaCliente.getId());
-		atualizaDados(cliente, atualizaCliente);
+	public Cliente atualizaCliente(Long id, ClienteDTO clienteDTO) {
+		Cliente cliente = buscaPorId(id);
+		atualizaDados(cliente, clienteDTO);
 		return clienteRepository.save(cliente);
 	}
 
@@ -98,10 +98,6 @@ public class ClienteService {
 		}
 		
 		return cliente;
-	}
-	
-	public Cliente fromDTO(ClienteDTO clienteDTO) {
-		return new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail(), null, null);
 	}
 	
 	public Cliente fromDTO(ClienteSaveDTO clienteSaveDTO) {
@@ -138,7 +134,7 @@ public class ClienteService {
 		return cliente;
 	}
 	
-	private void atualizaDados(Cliente cliente, Cliente atualizaCliente) {
+	private void atualizaDados(Cliente cliente, ClienteDTO atualizaCliente) {
 		cliente.setNome(atualizaCliente.getNome());
 		cliente.setEmail(atualizaCliente.getEmail());
 	}
