@@ -11,8 +11,6 @@ import com.lucasilva.pedidoapp.domain.Categoria;
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
-	
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Length(min = 4, max = 50, message = "Tamanho deve conter entre 4 a 50 caracteres")
 	private String nome;
@@ -20,22 +18,12 @@ public class CategoriaDTO implements Serializable {
 	public CategoriaDTO() {
 	}
 	
-	public CategoriaDTO(Long id, String nome) {
-		this.id = id;
+	public CategoriaDTO(String nome) {
 		this.nome = nome;
 	}
 	
 	public CategoriaDTO(Categoria categoria) {
-		this.id = categoria.getId();
 		this.nome = categoria.getNome();
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 	public String getNome() {

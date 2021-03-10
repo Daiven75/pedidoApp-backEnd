@@ -1,22 +1,33 @@
 package com.lucasilva.pedidoapp.resources;
 
-import com.lucasilva.pedidoapp.domain.Categoria;
-import com.lucasilva.pedidoapp.dto.CategoriaDTO;
-import com.lucasilva.pedidoapp.services.CategoriaService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import java.net.URI;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.google.common.collect.Lists;
+import com.lucasilva.pedidoapp.domain.Categoria;
+import com.lucasilva.pedidoapp.dto.CategoriaDTO;
+import com.lucasilva.pedidoapp.services.CategoriaService;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -36,8 +47,7 @@ public class CategoriaResource {
     @ApiOperation(value = "Cadastra uma categoria")
     @PostMapping()
 	public ResponseEntity<Void> cadastraCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) {
-		Categoria categoria = categoriaService.fromDTO(categoriaDTO);
-		categoria = categoriaService.cadastraCategoria(categoria);
+    	Categoria categoria = categoriaService.cadastraCategoria(new Categoria(categoriaDTO));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(categoria.getId()).toUri();
@@ -50,10 +60,8 @@ public class CategoriaResource {
 	public ResponseEntity<Categoria> atualizaCategoria(
 			@PathVariable Long id,
 			@Valid @RequestBody CategoriaDTO categoriaDTO) {
-		Categoria categoria = categoriaService.fromDTO(categoriaDTO);
-		categoria.setId(id);
-		categoria = categoriaService.atualizaCategoria(categoria);
-		return ResponseEntity.noContent().build();
+		categoriaService.atualizaCategoria(id, categoriaDTO);
+    	return ResponseEntity.noContent().build();
 	}
 	
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -69,29 +77,18 @@ public class CategoriaResource {
 	
     @ApiOperation(value = "Busca todas as categorias")
 	@GetMapping()
-	public ResponseEntity<List<CategoriaDTO>> buscarTodos() {
-		List<Categoria> listaCategoria = categoriaService.buscaTodos();
-		List<CategoriaDTO> listaCategoriaDTO = listaCategoria.stream()
-				.map(obj -> new CategoriaDTO(obj))
-				.collect(Collectors.toList());
-		return ResponseEntity.ok().body(listaCategoriaDTO);
+	public ResponseEntity<List<Categoria>> buscarTodos() {
+		return ResponseEntity.ok().body(Lists.newArrayList(categoriaService.buscaTodos()));
 	}
 	
     @ApiOperation(value = "Busca todas as categorias com paginação")
 	@GetMapping(value="/page")
-	public ResponseEntity<Page<CategoriaDTO>> buscaPagina(
+	public ResponseEntity<Page<Categoria>> buscaPagina(
 			@RequestParam(value="pagina", defaultValue="0") Integer pagina, 
 			@RequestParam(value="linhasPorPagina", defaultValue="24") Integer linhasPorPagina,
 			@RequestParam(value="ordenaPor", defaultValue="nome") String ordenaPor, 
 			@RequestParam(value="direcao", defaultValue="ASC") String direcao) {
 		Page<Categoria> pageCategoria = categoriaService.buscaPagina(pagina, linhasPorPagina, ordenaPor, direcao);
-		Page<CategoriaDTO> pageCategoriaDTO = pageCategoria.map(obj -> new CategoriaDTO(obj));
-		return ResponseEntity.ok().body(pageCategoriaDTO);
-	}
-
-	@GetMapping(value = "/teste/{id}")
-	public String getString(@PathVariable String id,
-			@RequestHeader(name = "testaHeader") String testaHeader) {
-		return "deu certo hehe!";
+		return ResponseEntity.ok().body(pageCategoria);
 	}
 }

@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.lucasilva.pedidoapp.dto.CategoriaDTO;
+
 @Entity
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,6 +25,10 @@ public class Categoria implements Serializable {
 	private List<Produto> produtos = new ArrayList<>();
 	
 	public Categoria() {
+	}
+	
+	public Categoria(CategoriaDTO categoriaDTO) {
+		this.nome = categoriaDTO.getNome();
 	}
 	
 	public Categoria(Long id, String nome) {

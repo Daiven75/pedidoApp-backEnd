@@ -36,9 +36,9 @@ public class CategoriaService {
 		return categoriaRepository.save(categoria);
 	}
 
-	public Categoria atualizaCategoria(Categoria atualizaCategoria) {
-		Categoria categoria = buscaPorId(atualizaCategoria.getId());
-		atualizaDados(categoria, atualizaCategoria);
+	public Categoria atualizaCategoria(Long id, CategoriaDTO categoriaDTO) {
+		Categoria categoria = buscaPorId(id);
+		atualizaDados(categoria, categoriaDTO);
 		return categoriaRepository.save(categoria);
 	}
 
@@ -60,11 +60,7 @@ public class CategoriaService {
 		return categoriaRepository.findAll(paginaRequest);
 	}
 	
-	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
-		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
-	}
-	
-	private void atualizaDados(Categoria categoria, Categoria atualizaCategoria) {
+	private void atualizaDados(Categoria categoria, CategoriaDTO atualizaCategoria) {
 		categoria.setNome(atualizaCategoria.getNome());
 	}
 }
