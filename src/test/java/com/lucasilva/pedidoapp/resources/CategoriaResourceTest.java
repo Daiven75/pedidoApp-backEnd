@@ -48,7 +48,7 @@ public class CategoriaResourceTest {
 	
 	@Test
 	public void getCategoriaByIdWithSucess() throws Exception {
-		Categoria categoria = new Categoria(5L, "categoria teste");
+		Categoria categoria = new Categoria(5L, "categoria teste", null);
 		
 		doReturn(categoria).when(categoriaService).buscaPorId(5L);
 		
@@ -59,8 +59,8 @@ public class CategoriaResourceTest {
 	
 	@Test
 	public void getAllCategoriasWithSucess() throws Exception {
-		Categoria categoria1 = new Categoria(5L, "categoria teste");
-		Categoria categoria2 = new Categoria(6L, "categoria teste");
+		Categoria categoria1 = new Categoria(5L, "categoria teste", null);
+		Categoria categoria2 = new Categoria(6L, "categoria teste", null);
 		
 		doReturn(Lists.newArrayList(categoria1, categoria2)).when(categoriaService).buscaTodos();
 		
@@ -71,7 +71,7 @@ public class CategoriaResourceTest {
 	
 	@Test
 	public void saveCategoriaWithSucess() throws Exception {
-		Categoria categoria = new Categoria(5L, "categoria teste");
+		Categoria categoria = new Categoria(5L, "categoria teste", null);
 		CategoriaDTO categoriaDTO = new CategoriaDTO(categoria);
 		
 		doReturn(categoria).when(categoriaService).cadastraCategoria(any());
@@ -87,7 +87,7 @@ public class CategoriaResourceTest {
 	
 	@Test
 	public void updateCategoriaWithSucess() throws Exception {
-		Categoria categoria = new Categoria(5L, "");
+		Categoria categoria = new Categoria(5L, "", null);
 		CategoriaDTO categoriaDTO = new CategoriaDTO("categoria teste");
 		
 		doReturn(categoria).when(categoriaService).atualizaCategoria(5L, categoriaDTO);
@@ -101,7 +101,7 @@ public class CategoriaResourceTest {
 	
 	@Test
 	public void deleteCategoriaById() throws Exception {
-		Categoria categoria = new Categoria(5L, "categoria teste");
+		Categoria categoria = new Categoria(5L, "categoria teste", null);
 
 		doNothing().when(categoriaService).deletaCategoria(categoria.getId());
 		
@@ -112,8 +112,8 @@ public class CategoriaResourceTest {
 	
 	@Test
 	public void getPageByCategoriaWithSucess() throws Exception {
-		Categoria categoria1 = new Categoria(5L, "categoria teste");
-		Categoria categoria2 = new Categoria(6L, "categoria teste");
+		Categoria categoria1 = new Categoria(5L, "categoria teste", null);
+		Categoria categoria2 = new Categoria(6L, "categoria teste", null);
 		
 		PageRequest pageRequest = PageRequest.of(5, 24, Direction.valueOf("ASC"), "nome");
 		List<Categoria> listCategoria = Lists.newArrayList(categoria1, categoria2);

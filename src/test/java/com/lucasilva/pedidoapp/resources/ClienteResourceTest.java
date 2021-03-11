@@ -135,7 +135,7 @@ public class ClienteResourceTest {
 				TipoCliente.PESSOAFISICA);
 		cliente.getTelefones().addAll(Arrays.asList("989341021", "9898313410"));
 		
-		Estado estado = new Estado(null, "Maranhão");
+		Estado estado = new Estado(null, "Maranhão", null);
 		Cidade cidade = new Cidade(null, "Imperatriz", estado);
 		Endereco endereco = new Endereco(
 				null, 

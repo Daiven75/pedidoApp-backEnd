@@ -9,9 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.Valid;
 
 import com.lucasilva.pedidoapp.dto.CategoriaDTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -24,42 +32,10 @@ public class Categoria implements Serializable {
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
-	public Categoria() {
-	}
-	
-	public Categoria(CategoriaDTO categoriaDTO) {
+	public Categoria(@Valid CategoriaDTO categoriaDTO) {
 		this.nome = categoriaDTO.getNome();
 	}
 	
-	public Categoria(Long id, String nome) {
-		this.id = id;
-		this.nome = nome;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-	
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	public List<Produto> getProdutos() {
-		return produtos;
-	}
-	
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

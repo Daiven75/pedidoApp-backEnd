@@ -8,6 +8,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.lucasilva.pedidoapp.domain.enums.EstadoPagamento;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 @JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
@@ -19,9 +26,6 @@ public class PagamentoComBoleto extends Pagamento {
 	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataVencimento;
 	
-	public PagamentoComBoleto() {
-	}
-
 	public PagamentoComBoleto(
 			Long id, 
 			EstadoPagamento estado, 
@@ -30,22 +34,6 @@ public class PagamentoComBoleto extends Pagamento {
 			Date dataVencimento) {
 		super(id, estado, pedido);
 		this.dataPagamento = dataPagamento;
-		this.dataVencimento = dataVencimento;
-	}
-
-	public Date getDataPagamento() {
-		return dataPagamento;
-	}
-
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
-
-	public Date getDataVencimento() {
-		return dataVencimento;
-	}
-
-	public void setDataVencimento(Date dataVencimento) {
 		this.dataVencimento = dataVencimento;
 	}
 }

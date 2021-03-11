@@ -17,6 +17,13 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -40,9 +47,6 @@ public class Produto implements Serializable {
 	@OneToMany(mappedBy="id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 	
-	public Produto() {
-	}
-	
 	public Produto(Long id, String nome, Double preco) {
 		this.id = id;
 		this.nome = nome;
@@ -58,46 +62,6 @@ public class Produto implements Serializable {
 		return listaPedidos;
 	}
 	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-	
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	public Double getPreco() {
-		return preco;
-	}
-	
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
-	
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
-	
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
-	}
-	
-	public Set<ItemPedido> getItens() {
-		return itens;
-	}
-	
-	public void setItens(Set<ItemPedido> itens) {
-		this.itens = itens;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

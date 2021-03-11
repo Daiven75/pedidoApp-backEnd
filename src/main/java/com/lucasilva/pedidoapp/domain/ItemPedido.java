@@ -9,6 +9,10 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,9 +25,6 @@ public class ItemPedido implements Serializable {
 	private Integer quantidade;
 	private Double preco;
 
-	public ItemPedido() {
-	}
-	
 	public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
 		id.setPedido(pedido);
 		id.setProduto(produto);

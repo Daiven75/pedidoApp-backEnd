@@ -20,6 +20,13 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -45,9 +52,6 @@ public class Pedido implements Serializable {
 	@OneToMany(mappedBy="id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
 	
-	public Pedido() {
-	}
-	
 	public Pedido(
 			Long id, 
 			Date instante, 
@@ -65,54 +69,6 @@ public class Pedido implements Serializable {
 			soma += x.getSubTotal();
 		}
 		return soma;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Date getInstante() {
-		return instante;
-	}
-
-	public void setInstante(Date instante) {
-		this.instante = instante;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Pagamento getPagamento() {
-		return pagamento;
-	}
-
-	public void setPagamento(Pagamento pagamento) {
-		this.pagamento = pagamento;
-	}
-
-	public Endereco getEnderecoDeEntrega() {
-		return enderecoDeEntrega;
-	}
-
-	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
-		this.enderecoDeEntrega = enderecoDeEntrega;
-	}
-	
-	public void setItens(Set<ItemPedido> itens) {
-		this.itens = itens;
-	}
-	
-	public Set<ItemPedido> getItens() {
-		return itens;
 	}
 
 	@Override
@@ -144,7 +100,6 @@ public class Pedido implements Serializable {
 	public String toString() {
 		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("Pedido número: ");
@@ -162,6 +117,7 @@ public class Pedido implements Serializable {
 		}
 		builder.append("Valor total: ");
 		builder.append(nf.format(getValorTotalPedido()));
+		
 		return builder.toString();
 	}
 }

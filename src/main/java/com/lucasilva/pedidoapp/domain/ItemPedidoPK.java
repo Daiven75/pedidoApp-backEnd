@@ -6,6 +6,13 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Embeddable
 public class ItemPedidoPK implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,22 +25,6 @@ public class ItemPedidoPK implements Serializable {
 	@JoinColumn(name="produto_id")
 	private Produto produto;
 	
-	public Pedido getPedido() {
-		return pedido;
-	}
-	
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
-	
-	public Produto getProduto() {
-		return produto;
-	}
-	
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

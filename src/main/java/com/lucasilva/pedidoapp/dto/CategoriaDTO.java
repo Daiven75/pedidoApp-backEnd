@@ -8,6 +8,13 @@ import org.hibernate.validator.constraints.Length;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -15,22 +22,7 @@ public class CategoriaDTO implements Serializable {
 	@Length(min = 4, max = 50, message = "Tamanho deve conter entre 4 a 50 caracteres")
 	private String nome;
 	
-	public CategoriaDTO() {
-	}
-	
-	public CategoriaDTO(String nome) {
-		this.nome = nome;
-	}
-	
 	public CategoriaDTO(Categoria categoria) {
 		this.nome = categoria.getNome();
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-	
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 }

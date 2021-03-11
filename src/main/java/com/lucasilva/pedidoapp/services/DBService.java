@@ -6,6 +6,8 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 import com.lucasilva.pedidoapp.domain.Categoria;
 import com.lucasilva.pedidoapp.domain.Cidade;
 import com.lucasilva.pedidoapp.domain.Cliente;
@@ -65,13 +67,13 @@ public class DBService {
 	
 	public void instantiateTestDatabase() throws ParseException {
 		
-		Categoria cat1 = new Categoria(null, "Informática");
-		Categoria cat2 = new Categoria(null, "Móveis");
-		Categoria cat3 = new Categoria(null, "Cama, mesa e banho");
-		Categoria cat4 = new Categoria(null, "Perfumaria");
-		Categoria cat5 = new Categoria(null, "Decoração");
-		Categoria cat6 = new Categoria(null, "Jardinagem");
-		Categoria cat7 = new Categoria(null, "Eletrônicos");
+		Categoria cat1 = new Categoria(null, "Informática", Lists.newArrayList());
+		Categoria cat2 = new Categoria(null, "Móveis", Lists.newArrayList());
+		Categoria cat3 = new Categoria(null, "Cama, mesa e banho", Lists.newArrayList());
+		Categoria cat4 = new Categoria(null, "Perfumaria", Lists.newArrayList());
+		Categoria cat5 = new Categoria(null, "Decoração", Lists.newArrayList());
+		Categoria cat6 = new Categoria(null, "Jardinagem", Lists.newArrayList());
+		Categoria cat7 = new Categoria(null, "Eletrônicos", Lists.newArrayList());
 		
 		Produto p1 = new Produto(null, "Notebook", 3550.50);
 		Produto p2 = new Produto(null, "Mouse", 120.00);
@@ -112,8 +114,8 @@ public class DBService {
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2 ,p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13));
 		
-		Estado est1 = new Estado(null, "Maranhão");
-		Estado est2 = new Estado(null, "São Paulo");
+		Estado est1 = new Estado(null, "Maranhão", Lists.newArrayList());
+		Estado est2 = new Estado(null, "São Paulo", Lists.newArrayList());
 		
 		Cidade cid1 = new Cidade(null, "Imperatriz", est1);
 		Cidade cid2 = new Cidade(null, "Alcântara", est1);
