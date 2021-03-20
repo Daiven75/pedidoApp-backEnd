@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.dto.CategoriaDTO;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.services.exceptions.CategoriaNotFoundException;
@@ -26,9 +27,7 @@ public class CategoriaService {
 		Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);
 		return optionalCategoria
 				.orElseThrow(() -> new CategoriaNotFoundException(
-						"Categoria não encontrada! "
-						+ "Id: " + id + 
-						", Tipo: " + Categoria.class.getName()));
+						TipoErro.CATEGORIA_NAO_ENCONTRADA.toString()));
 	}
 	
 	public Categoria cadastraCategoria(Categoria categoria) {
@@ -47,7 +46,7 @@ public class CategoriaService {
 		try {
 			categoriaRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir categoria que possua produtos!");
+			throw new DataIntegrityException(TipoErro.CATEGORIA_COM_PRODUTOS.toString());
 		}
 	}
 

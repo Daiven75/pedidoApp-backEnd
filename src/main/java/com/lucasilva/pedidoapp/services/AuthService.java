@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Cliente;
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
 import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;
 
@@ -29,7 +30,7 @@ public class AuthService {
 		Cliente cliente = clienteRepository.findByEmail(email);
 		
 		if(cliente == null) {
-			throw new ClienteNotFoundException("Email não encontrado!");
+			throw new ClienteNotFoundException(TipoErro.EMAIL_NAO_ENCONTRADO.toString());
 		}
 		
 		String newPassword = newPassword();

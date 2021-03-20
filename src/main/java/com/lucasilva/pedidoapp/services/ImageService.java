@@ -14,6 +14,7 @@ import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.services.exceptions.FileException;
 
 @Service
@@ -22,9 +23,8 @@ public class ImageService {
 	public BufferedImage getJpgImageFromFile(MultipartFile uploadedFile) {
 		String ext = FilenameUtils.getExtension(uploadedFile.getOriginalFilename());
 		if(!"png".equalsIgnoreCase(ext) && !"jpg".equalsIgnoreCase(ext)) {
-			throw new FileException("Somente imagens PNG e o JPG são permitidas");
+			throw new FileException(TipoErro.APENAS_PNG_E_JPG.toString());
 		}
-		
 		try {
 			BufferedImage img = ImageIO.read(uploadedFile.getInputStream());
 			if("png".equalsIgnoreCase(ext)) {
@@ -32,7 +32,7 @@ public class ImageService {
 			}
 			return img;
 		} catch (IOException e) {
-			throw new FileException("Erro ao ler arquivo");
+			throw new FileException(TipoErro.ERRO_LER_ARQUIVO.toString());
 		}
 	}
 
@@ -49,7 +49,7 @@ public class ImageService {
 			ImageIO.write(img, extension, os);
 			return new ByteArrayInputStream(os.toByteArray());			
 		} catch (IOException e) {
-			throw new FileException("Erro ao ler arquivo");
+			throw new FileException(TipoErro.ERRO_LER_ARQUIVO.toString());
 		}
 	}
 	

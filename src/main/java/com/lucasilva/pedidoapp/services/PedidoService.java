@@ -16,6 +16,7 @@ import com.lucasilva.pedidoapp.domain.PagamentoComBoleto;
 import com.lucasilva.pedidoapp.domain.Pedido;
 import com.lucasilva.pedidoapp.domain.enums.EstadoPagamento;
 import com.lucasilva.pedidoapp.domain.enums.Perfil;
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.repositories.ItemPedidoRepository;
 import com.lucasilva.pedidoapp.repositories.PagamentoRepository;
 import com.lucasilva.pedidoapp.repositories.PedidoRepository;
@@ -52,12 +53,12 @@ public class PedidoService {
 		Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
 		
 		if(user.getId() != optionalPedido.get().getCliente().getId() && !user.hasRole(Perfil.ADMIN)) {
-			throw new AuthorizationException("acesso negado!");
+			throw new AuthorizationException(TipoErro.ACESSO_NEGADO.toString());
 		}
 		
 		return optionalPedido.orElseThrow(
 				() -> new PedidoNotFoundException(
-						"Pedido de id = " + id + " não encontrado!"));
+						TipoErro.PEDIDO_NAO_ENCONTRADO.toString()));
 	}
 
 	@Transactional
@@ -89,7 +90,7 @@ public class PedidoService {
 		UserSS user = UserService.authenticated();
 		
 		if(user == null) {
-			throw new AuthorizationException("acesso negado!");
+			throw new AuthorizationException(TipoErro.ACESSO_NEGADO.toString());
 		}
 		PageRequest pageRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direcao), ordenaPor);
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Estado;
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.repositories.EstadoRepository;
 import com.lucasilva.pedidoapp.services.exceptions.EstadoNotFoundException;
 
@@ -23,7 +24,7 @@ public class EstadoService {
 	public Estado buscaEstado(Long estadoId) {
 		Optional<Estado> estado = estadoRepository.findById(estadoId);
 		if(estado.isEmpty() || estado == null) {
-			throw new EstadoNotFoundException("Estado não encontrado! Id: " + estadoId);
+			throw new EstadoNotFoundException(TipoErro.ESTADO_NAO_ENCONTRADO.toString());
 		}
 		return estado.get();
 	}

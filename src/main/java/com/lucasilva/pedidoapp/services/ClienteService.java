@@ -18,6 +18,7 @@ import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.domain.Endereco;
 import com.lucasilva.pedidoapp.domain.enums.Perfil;
 import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.dto.ClienteDTO;
 import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
 import com.lucasilva.pedidoapp.repositories.ClienteRepository;
@@ -56,13 +57,13 @@ public class ClienteService {
 		UserSS user = UserService.authenticated();
 		
 		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
-			throw new AuthorizationException("Acesso negado!");
+			throw new AuthorizationException(TipoErro.ACESSO_NEGADO.toString());
 		}
 		
 		Optional<Cliente> optionalCliente = clienteRepository.findById(id);
 		return optionalCliente.orElseThrow(
 				() -> new ClienteNotFoundException(
-						"Cliente com id = " + id + " não encontrado!"));
+						TipoErro.CLIENTE_NAO_ENCONTRADO.toString()));
 	}
 	
 	@Transactional
@@ -86,15 +87,14 @@ public class ClienteService {
 	public Cliente buscaPorEmail(String email) {
 		UserSS user = UserService.authenticated();
 		if(user == null || !user.hasRole(Perfil.ADMIN) || !email.equals(user.getUsername())) {
-			throw new AuthorizationException("Acesso negado."); 
+			throw new AuthorizationException(TipoErro.ACESSO_NEGADO.toString()); 
 		}
 		
 		Cliente cliente = clienteRepository.findByEmail(email);
 		
 		if(cliente == null) {
 			throw new ClienteNotFoundException(
-					"Cliente não encontrado! "
-					+ "Id: " + user.getId() + " , Tipo: " + Cliente.class.getName());
+					TipoErro.CLIENTE_NAO_ENCONTRADO.toString());
 		}
 		
 		return cliente;
@@ -144,7 +144,7 @@ public class ClienteService {
 		try {
 			clienteRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possuir excluir o cliente pois o mesmo possui pedidos!");
+			throw new DataIntegrityException(TipoErro.CLIENTE_COM_PEDIDOS.toString());
 		}
 	}
 	
@@ -152,7 +152,7 @@ public class ClienteService {
 		
 		UserSS user = UserService.authenticated();
 		if(user == null) {
-			throw new AuthorizationException("Acesso negado!");
+			throw new AuthorizationException(TipoErro.ACESSO_NEGADO.toString());
 		}
 		
 		BufferedImage img = imageService.getJpgImageFromFile(multipartFile);

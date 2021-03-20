@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.lucasilva.pedidoapp.domain.Categoria;
 import com.lucasilva.pedidoapp.domain.Produto;
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
 import com.lucasilva.pedidoapp.repositories.ProdutoRepository;
 import com.lucasilva.pedidoapp.services.exceptions.PedidoNotFoundException;
@@ -28,7 +29,7 @@ public class ProdutoService {
 		Optional<Produto> optionalProduto = produtoRepository.findById(id);
 		return optionalProduto.orElseThrow(
 				() -> new PedidoNotFoundException(
-						"Produto de id = " + id + " não encontrado!"));
+						TipoErro.PRODUTO_NAO_ENCONTRADO.toString()));
 	}
 	
 	public Page<Produto> buscaPagina(

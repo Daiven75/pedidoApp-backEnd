@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
 import com.lucasilva.pedidoapp.services.exceptions.FileException;
 
 @Service
@@ -35,7 +36,7 @@ public class S3Service {
 			String contentType = multipartFile.getContentType();
 			return uploadFile(fileName, is, contentType);
 			} catch (IOException e) {
-				throw new FileException("Erro de IO: " + e.getMessage());
+				throw new FileException(TipoErro.ERRO_IO.toString() + " :" + e.getMessage());
 			}
 	}
 	
@@ -48,7 +49,7 @@ public class S3Service {
 			LOG.info("Upload finalizado");
 			return s3Client.getUrl(bucketName, fileName).toURI();
 		} catch (URISyntaxException e) {
-			throw new FileException("Erro ao converter URL para URI");
+			throw new FileException(TipoErro.CONVERTER_URL_PARA_URI.toString());
 		}
   	}
 }
