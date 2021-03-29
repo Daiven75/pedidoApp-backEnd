@@ -3,6 +3,7 @@ package com.lucasilva.pedidoapp.resources;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class EstadoResource {
 	private CidadeService cidadeService;
 	
 	@ApiOperation(value = "Busca todos os estados")
+	@Cacheable(value = "estados")
 	@GetMapping
 	public ResponseEntity<List<EstadoDTO>> buscaTodosEstados() {
 		List<Estado> estados = estadoService.buscaTodosEstados();
@@ -36,6 +38,7 @@ public class EstadoResource {
 	}
 	
 	@ApiOperation(value = "Busca todas as cidades de um estado")
+	@Cacheable(value = "cidades")
 	@GetMapping(value = "/{estadoId}/cidades") 
 	public ResponseEntity<List<CidadeDTO>> buscaCidadesEmUmEstado(@PathVariable Long estadoId) {
 		List<Cidade> cidades = cidadeService.buscaCidadeDeUmEstado(estadoId);

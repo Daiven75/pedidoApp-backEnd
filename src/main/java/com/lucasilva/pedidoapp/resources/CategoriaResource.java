@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +39,7 @@ public class CategoriaResource {
 	private CategoriaService categoriaService;
 
 	@ApiOperation(value = "Busca categoria por id")
+	@Cacheable(value = "categorias", key = "#id")
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Categoria> buscaPorId(@PathVariable Long id) {
 		Categoria categoria = categoriaService.buscaPorId(id);
@@ -45,6 +48,7 @@ public class CategoriaResource {
 	
     @PreAuthorize("hasAnyRole('ADMIN')") 
     @ApiOperation(value = "Cadastra uma categoria")
+    @CacheEvict(value = "categorias", allEntries = true)
     @PostMapping()
 	public ResponseEntity<Void> cadastraCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) {
     	Categoria categoria = categoriaService.cadastraCategoria(new Categoria(categoriaDTO));
@@ -56,6 +60,7 @@ public class CategoriaResource {
 	
     @PreAuthorize("hasAnyRole('ADMIN')") 
     @ApiOperation(value = "Atualiza uma categoria")
+    @CacheEvict(value = "categorias", allEntries = true)
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Categoria> atualizaCategoria(
 			@PathVariable Long id,
@@ -69,6 +74,7 @@ public class CategoriaResource {
     @ApiResponses(value = {
     		@ApiResponse(code = 400, message = "Não é possível excluir uma categoria que possui produtos"),
     		@ApiResponse(code = 404, message = "Código inexistente") })
+    @CacheEvict(value = "categorias", allEntries = true)
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletaCategoria(@PathVariable Long id) {
 		categoriaService.deletaCategoria(id);
@@ -76,12 +82,14 @@ public class CategoriaResource {
 	}
 	
     @ApiOperation(value = "Busca todas as categorias")
-	@GetMapping()
+    @Cacheable(value = "categorias")
+	@GetMapping
 	public ResponseEntity<List<Categoria>> buscarTodos() {
 		return ResponseEntity.ok().body(Lists.newArrayList(categoriaService.buscaTodos()));
 	}
 	
     @ApiOperation(value = "Busca todas as categorias com paginação")
+    @Cacheable(value = "categorias")
 	@GetMapping(value="/page")
 	public ResponseEntity<Page<Categoria>> buscaPagina(
 			@RequestParam(value="pagina", defaultValue="0") Integer pagina, 
