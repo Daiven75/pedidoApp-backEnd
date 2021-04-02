@@ -41,10 +41,18 @@ public class ProdutoService {
 			String direcao) {
 		
 			PageRequest paginaRequest = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direcao), ordenaPor);
-			List<Categoria> listcategorias = categoriaRepository.findAllById(ids); 
+			List<Categoria> listCategorias = categoriaRepository.findAllById(ids); 
 			return produtoRepository.findDistinctByNomeContainingAndCategoriasIn(
 					nome, 
-					listcategorias, 
+					listCategorias, 
 					paginaRequest);
 	}
+
+    public Produto cadastrarProduto(Produto produto, List<Long> categorias) {
+		List<Categoria> listaCategorias = categoriaRepository.findAllById(categorias);
+		listaCategorias.stream().forEach(cat -> cat.getProdutos().add(produto));
+		categoriaRepository.saveAll(listaCategorias); // update na(s) categoria(s) acrescentando produto
+		produto.setCategorias(listaCategorias);
+		return produtoRepository.save(produto);
+    }
 }

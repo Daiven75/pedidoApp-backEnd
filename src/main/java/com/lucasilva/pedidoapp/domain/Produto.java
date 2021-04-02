@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lucasilva.pedidoapp.dto.ProdutoSaveDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,6 +52,11 @@ public class Produto implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
+	}
+
+	public Produto(ProdutoSaveDTO produtoSaveDTO) {
+		this.nome = produtoSaveDTO.getNome();
+		this.preco = produtoSaveDTO.getPreco();
 	}
 	
 	@JsonIgnore

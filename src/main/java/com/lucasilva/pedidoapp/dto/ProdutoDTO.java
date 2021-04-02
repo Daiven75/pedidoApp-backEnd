@@ -14,12 +14,10 @@ import lombok.Setter;
 public class ProdutoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
 	private String nome;
 	private Double preco;
 	
 	public ProdutoDTO(Produto produto) {
-		id = produto.getId();
 		nome = produto.getNome();
 		preco = produto.getPreco();
 	}
