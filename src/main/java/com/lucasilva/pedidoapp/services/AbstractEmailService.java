@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -35,7 +36,7 @@ public abstract class AbstractEmailService implements EmailService{
 
 	protected SimpleMailMessage prepareSimpleMailMessageFromPedido(Pedido pedido) {
 		SimpleMailMessage sm = new SimpleMailMessage();
-		sm.setTo(pedido.getCliente().getNome());
+		sm.setTo(pedido.getCliente().getEmail());
 		sm.setFrom(sender);
 		sm.setSubject("Pedido confirmado! Código: " + pedido.getId());
 		sm.setSentDate(new Date(System.currentTimeMillis()));
@@ -50,6 +51,7 @@ public abstract class AbstractEmailService implements EmailService{
 	}
 	
 	@Override
+	@Async
 	public void sendOrderConfirmationHtmlEmail(Pedido pedido) {
 		try {
 			MimeMessage mm = prepareMimeMessageFromPedido(pedido);
@@ -62,7 +64,7 @@ public abstract class AbstractEmailService implements EmailService{
 	private MimeMessage prepareMimeMessageFromPedido(Pedido pedido) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
-		mmh.setTo(pedido.getCliente().getNome());
+		mmh.setTo(pedido.getCliente().getEmail());
 		mmh.setFrom(sender);
 		mmh.setSentDate(new Date(System.currentTimeMillis()));
 		mmh.setSubject("Pedido Confirmado! Código: " + pedido.getId());

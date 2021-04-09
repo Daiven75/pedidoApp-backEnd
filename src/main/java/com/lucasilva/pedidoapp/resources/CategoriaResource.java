@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.google.common.collect.Lists;
 import com.lucasilva.pedidoapp.domain.Categoria;
 import com.lucasilva.pedidoapp.dto.CategoriaDTO;
 import com.lucasilva.pedidoapp.services.CategoriaService;
@@ -85,7 +84,7 @@ public class CategoriaResource {
     @Cacheable(value = "categorias")
 	@GetMapping
 	public ResponseEntity<List<Categoria>> buscarTodos() {
-		return ResponseEntity.ok().body(Lists.newArrayList(categoriaService.buscaTodos()));
+		return ResponseEntity.ok().body(categoriaService.buscaTodos());
 	}
 	
     @ApiOperation(value = "Busca todas as categorias com paginação")
