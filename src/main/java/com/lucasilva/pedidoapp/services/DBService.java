@@ -1,36 +1,18 @@
 package com.lucasilva.pedidoapp.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import com.google.common.collect.Lists;
+import com.lucasilva.pedidoapp.domain.*;
+import com.lucasilva.pedidoapp.domain.enums.EstadoPagamento;
+import com.lucasilva.pedidoapp.domain.enums.Perfil;
+import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
+import com.lucasilva.pedidoapp.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
-import com.lucasilva.pedidoapp.domain.Categoria;
-import com.lucasilva.pedidoapp.domain.Cidade;
-import com.lucasilva.pedidoapp.domain.Cliente;
-import com.lucasilva.pedidoapp.domain.Endereco;
-import com.lucasilva.pedidoapp.domain.Estado;
-import com.lucasilva.pedidoapp.domain.ItemPedido;
-import com.lucasilva.pedidoapp.domain.Pagamento;
-import com.lucasilva.pedidoapp.domain.PagamentoComBoleto;
-import com.lucasilva.pedidoapp.domain.PagamentoComCartao;
-import com.lucasilva.pedidoapp.domain.Pedido;
-import com.lucasilva.pedidoapp.domain.Produto;
-import com.lucasilva.pedidoapp.domain.enums.EstadoPagamento;
-import com.lucasilva.pedidoapp.domain.enums.Perfil;
-import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
-import com.lucasilva.pedidoapp.repositories.CategoriaRepository;
-import com.lucasilva.pedidoapp.repositories.CidadeRepository;
-import com.lucasilva.pedidoapp.repositories.ClienteRepository;
-import com.lucasilva.pedidoapp.repositories.EnderecoRepository;
-import com.lucasilva.pedidoapp.repositories.EstadoRepository;
-import com.lucasilva.pedidoapp.repositories.ItemPedidoRepository;
-import com.lucasilva.pedidoapp.repositories.PagamentoRepository;
-import com.lucasilva.pedidoapp.repositories.PedidoRepository;
-import com.lucasilva.pedidoapp.repositories.ProdutoRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 @Service
 public class DBService {
@@ -113,9 +95,11 @@ public class DBService {
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2 ,p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13));
+
+		Regiao regiao = new Regiao(null, "SE", "Sudeste", Lists.newArrayList());
 		
-		Estado est1 = new Estado(null, "Maranhão", Lists.newArrayList());
-		Estado est2 = new Estado(null, "São Paulo", Lists.newArrayList());
+		Estado est1 = new Estado(null, "MA", "Maranhão", null, Lists.newArrayList());
+		Estado est2 = new Estado(null, "SP", "São Paulo", null, Lists.newArrayList());
 		
 		Cidade cid1 = new Cidade(null, "Imperatriz", est1);
 		Cidade cid2 = new Cidade(null, "Alcântara", est1);

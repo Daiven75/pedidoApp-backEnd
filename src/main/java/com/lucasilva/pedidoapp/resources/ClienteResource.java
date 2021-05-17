@@ -40,23 +40,23 @@ public class ClienteResource {
 	@ApiOperation(value = "Busca cliente por id")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cliente> buscaPorId(@PathVariable Long id) {
-		Cliente cliente = clienteService.buscaPorId(id);
+		var cliente = clienteService.buscaPorId(id);
 		return ResponseEntity.ok().body(cliente);
 	}
 	
 	@ApiOperation(value = "Busca cliente por email")
 	@GetMapping(value = "/email")
 	public ResponseEntity<Cliente> findByEmail(@RequestParam(value = "value") String email) {
-		Cliente cliente = clienteService.buscaPorEmail(email);
+		var cliente = clienteService.buscaPorEmail(email);
 		return ResponseEntity.ok().body(cliente);
 	}
 	
 	@ApiOperation(value = "Cadastra um cliente")
 	@PostMapping()
 	public ResponseEntity<Void> cadastraCliente(@Valid @RequestBody ClienteSaveDTO clienteSaveDTO) {
-		Cliente cliente = clienteService.fromDTO(clienteSaveDTO);
+		var cliente = clienteService.fromDTO(clienteSaveDTO);
 		cliente = clienteService.cadastraCliente(cliente);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+		var uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(cliente.getId()).toUri();
 		return ResponseEntity.created(uri).build(); // retornando a URI criada a partir do insert 
@@ -88,7 +88,7 @@ public class ClienteResource {
 	public ResponseEntity<List<ClienteDTO>> buscarTodos() {
 		List<Cliente> listaCliente = clienteService.buscaTodos();
 		List<ClienteDTO> listaClienteDTO = listaCliente.stream()
-				.map(obj -> new ClienteDTO(obj))
+				.map(ClienteDTO::new)
 				.collect(Collectors.toList());
 		return ResponseEntity.ok().body(listaClienteDTO);
 	}
@@ -96,7 +96,7 @@ public class ClienteResource {
 	@ApiOperation(value = "Salva imagem do cliente")
 	@PostMapping(value = "/picture") 
 	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
-		URI uri = clienteService.uploadProfilePicture(file);
+		var uri = clienteService.uploadProfilePicture(file);
 		return ResponseEntity.created(uri).build();
 	}
 }

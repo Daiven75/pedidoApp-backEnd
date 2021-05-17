@@ -1,11 +1,11 @@
-package com.lucasilva.pedidoapp.resources.utils;
+package com.lucasilva.pedidoapp.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class URI {
+public class URIUtils {
 
 	public static String decodeParam(String s) {
 		try {

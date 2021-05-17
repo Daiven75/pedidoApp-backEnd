@@ -1,6 +1,7 @@
 package com.lucasilva.pedidoapp.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,4 +42,14 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="cidade_id")
 	private Cidade cidade;
+
+    public Endereco(CepDTO cepDTO) {
+    	if(Objects.nonNull(cepDTO)) {
+			this.logradouro = cepDTO.getLogradouro();
+			this.bairro = cepDTO.getBairro();
+			this.cep = cepDTO.getCep();
+			this.cidade = new Cidade(null, cepDTO.getLocalidade(), new Estado());
+			cidade.getEstado().setSigla(cepDTO.getUf());
+		}
+    }
 }

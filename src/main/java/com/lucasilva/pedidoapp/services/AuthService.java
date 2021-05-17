@@ -1,15 +1,13 @@
 package com.lucasilva.pedidoapp.services;
 
-import java.util.Random;
-
+import com.lucasilva.pedidoapp.domain.enums.TipoErro;
+import com.lucasilva.pedidoapp.repositories.ClienteRepository;
+import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.lucasilva.pedidoapp.domain.Cliente;
-import com.lucasilva.pedidoapp.domain.enums.TipoErro;
-import com.lucasilva.pedidoapp.repositories.ClienteRepository;
-import com.lucasilva.pedidoapp.services.exceptions.ClienteNotFoundException;
+import java.util.Random;
 
 @Service
 public class AuthService {
@@ -20,14 +18,14 @@ public class AuthService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	private Random random = new Random();
-	
+	private final Random random = new Random();
+
 	@Autowired
 	private EmailService emailService;
 	
 	public void sendNewPassword(String email) {
 		
-		Cliente cliente = clienteRepository.findByEmail(email);
+		var cliente = clienteRepository.findByEmail(email);
 		
 		if(cliente == null) {
 			throw new ClienteNotFoundException(TipoErro.EMAIL_NAO_ENCONTRADO.toString());
@@ -40,15 +38,15 @@ public class AuthService {
 	}
 
 	private String newPassword() {
-		char[] vet = new char[10];
-		for(int i = 0; i < 10; i++) {
+		var vet = new char[10];
+		for(var i = 0; i < 10; i++) {
 			vet[i] = randomChar();
 		}
 		return new String(vet);
 	}
 
 	private char randomChar() {
-		int op = random.nextInt();
+		var op = random.nextInt();
 		if(op == 0) {
 			return (char) (random.nextInt(10) + 48); // gera um digito
 		}

@@ -38,7 +38,7 @@ import com.lucasilva.pedidoapp.services.CategoriaService;
 @SpringBootTest
 @WithMockUser
 @AutoConfigureMockMvc
-public class CategoriaResourceTest {
+class CategoriaResourceTest {
 
 	@Autowired
     private MockMvc mockMvc;
@@ -47,7 +47,7 @@ public class CategoriaResourceTest {
 	private CategoriaService categoriaService;
 	
 	@Test
-	public void getCategoriaByIdWithSucess() throws Exception {
+	void getCategoriaByIdWithSucess() throws Exception {
 		Categoria categoria = new Categoria(5L, "categoria teste", null);
 		
 		doReturn(categoria).when(categoriaService).buscaPorId(5L);
@@ -58,7 +58,7 @@ public class CategoriaResourceTest {
 	}
 	
 	@Test
-	public void getAllCategoriasWithSucess() throws Exception {
+	void getAllCategoriasWithSucess() throws Exception {
 		Categoria categoria1 = new Categoria(5L, "categoria teste", null);
 		Categoria categoria2 = new Categoria(6L, "categoria teste", null);
 		
@@ -70,7 +70,7 @@ public class CategoriaResourceTest {
 	}
 	
 	@Test
-	public void saveCategoriaWithSucess() throws Exception {
+	void saveCategoriaWithSucess() throws Exception {
 		Categoria categoria = new Categoria(5L, "categoria teste", null);
 		CategoriaDTO categoriaDTO = new CategoriaDTO(categoria);
 		
@@ -86,11 +86,11 @@ public class CategoriaResourceTest {
 	}
 	
 	@Test
-	public void updateCategoriaWithSucess() throws Exception {
+	void updateCategoriaWithSucess() throws Exception {
 		Categoria categoria = new Categoria(5L, "", null);
 		CategoriaDTO categoriaDTO = new CategoriaDTO("categoria teste");
 		
-		doReturn(categoria).when(categoriaService).atualizaCategoria(5L, categoriaDTO);
+		doNothing().when(categoriaService).atualizaCategoria(5L, categoriaDTO);
 		
 		this.mockMvc.perform(put("/categorias/5")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -100,7 +100,7 @@ public class CategoriaResourceTest {
 	}
 	
 	@Test
-	public void deleteCategoriaById() throws Exception {
+	void deleteCategoriaById() throws Exception {
 		Categoria categoria = new Categoria(5L, "categoria teste", null);
 
 		doNothing().when(categoriaService).deletaCategoria(categoria.getId());
@@ -111,13 +111,13 @@ public class CategoriaResourceTest {
 	}
 	
 	@Test
-	public void getPageByCategoriaWithSucess() throws Exception {
+	void getPageByCategoriaWithSucess() throws Exception {
 		Categoria categoria1 = new Categoria(5L, "categoria teste", null);
 		Categoria categoria2 = new Categoria(6L, "categoria teste", null);
 		
 		PageRequest pageRequest = PageRequest.of(5, 24, Direction.valueOf("ASC"), "nome");
 		List<Categoria> listCategoria = Lists.newArrayList(categoria1, categoria2);
-		Page<Categoria> pageCategoria = new PageImpl<Categoria>(listCategoria, pageRequest, listCategoria.size());
+		Page<Categoria> pageCategoria = new PageImpl<>(listCategoria, pageRequest, listCategoria.size());
 		
 		doReturn(pageCategoria).when(categoriaService).buscaPagina(5, 24, "nome", "ASC");
 		

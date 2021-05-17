@@ -20,10 +20,11 @@ public enum TipoErro {
 	PEDIDO_NAO_ENCONTRADO("PED-0010", "Pedido não encontrado!"),
 	PRODUTO_NAO_ENCONTRADO("PED-0011", "Produto não encontrado!"),
 	CONVERTER_URL_PARA_URI("PED-0012", "Erro ao converter URL para URI"),
-	ERRO_IO("PED-0013", "Erro de IO");
-	
-	private String codigo;
-	private String descricao;
+	ERRO_IO("PED-0013", "Erro de IO"),
+	ERRO_CONSULTAR_CEP("PED-0014", "Erro ao consultar cep");
+
+	private final String codigo;
+	private final String descricao;
 	
 	public String toString() {
 		return this.codigo + " - " + this.descricao;

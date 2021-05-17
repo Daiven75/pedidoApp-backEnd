@@ -1,22 +1,15 @@
 package com.lucasilva.pedidoapp.resources;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.net.URI;
-import java.util.Arrays;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+import com.lucasilva.pedidoapp.domain.Cidade;
+import com.lucasilva.pedidoapp.domain.Cliente;
+import com.lucasilva.pedidoapp.domain.Endereco;
+import com.lucasilva.pedidoapp.domain.Estado;
+import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
+import com.lucasilva.pedidoapp.dto.ClienteDTO;
+import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
+import com.lucasilva.pedidoapp.services.ClienteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,21 +23,22 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import com.lucasilva.pedidoapp.domain.Cidade;
-import com.lucasilva.pedidoapp.domain.Cliente;
-import com.lucasilva.pedidoapp.domain.Endereco;
-import com.lucasilva.pedidoapp.domain.Estado;
-import com.lucasilva.pedidoapp.domain.enums.TipoCliente;
-import com.lucasilva.pedidoapp.dto.ClienteDTO;
-import com.lucasilva.pedidoapp.dto.ClienteSaveDTO;
-import com.lucasilva.pedidoapp.services.ClienteService;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser
-public class ClienteResourceTest {
+class ClienteResourceTest {
 	
 	@Autowired
     private MockMvc mockMvc;
@@ -56,7 +50,7 @@ public class ClienteResourceTest {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Test
-    public void getAllClientsWithSucess() throws Exception {
+    void getAllClientsWithSucess() throws Exception {
 		Cliente cliente1 = new  Cliente(
 				2L,
 				"nome teste", 
@@ -81,7 +75,7 @@ public class ClienteResourceTest {
     }
 	
 	@Test
-    public void getAllClientsNoPermition() throws Exception {
+    void getAllClientsNoPermition() throws Exception {
 		
         this.mockMvc.perform(get("/clientes")
         		.accept(MediaType.APPLICATION_JSON))
@@ -89,7 +83,7 @@ public class ClienteResourceTest {
     }
 	
 	@Test
-    public void getClientByIdWithSucess() throws Exception {
+    void getClientByIdWithSucess() throws Exception {
 		Cliente cliente1 = new  Cliente(
 				2L,
 				"nome teste", 
@@ -108,7 +102,7 @@ public class ClienteResourceTest {
     }
 	
 	@Test
-    public void saveClientWithSucess() throws Exception {
+    void saveClientWithSucess() throws Exception {
 		
 		ClienteSaveDTO clienteSaveDTO = new ClienteSaveDTO();
 		clienteSaveDTO.setNome("nome teste");
@@ -134,8 +128,8 @@ public class ClienteResourceTest {
 				"67383494102", 
 				TipoCliente.PESSOAFISICA);
 		cliente.getTelefones().addAll(Arrays.asList("989341021", "9898313410"));
-		
-		Estado estado = new Estado(null, "Maranhão", null);
+
+		Estado estado = new Estado(null, "MA", "Maranhão", null, Lists.newArrayList());
 		Cidade cidade = new Cidade(null, "Imperatriz", estado);
 		Endereco endereco = new Endereco(
 				null, 
@@ -146,7 +140,7 @@ public class ClienteResourceTest {
 				"65054312", 
 				cliente, 
 				cidade);
-		cliente.getEnderecos().addAll(Arrays.asList(endereco));
+		cliente.getEnderecos().addAll(Collections.singletonList(endereco));
 		
 		doReturn(cliente).when(clienteService).fromDTO(clienteSaveDTO);
 		doReturn(cliente).when(clienteService).cadastraCliente(any());
@@ -160,7 +154,7 @@ public class ClienteResourceTest {
     }
 	
 	@Test
-	public void getClientByEmail() throws Exception {
+	void getClientByEmail() throws Exception {
 		
 		Cliente cliente1 = new  Cliente(
 				2L,
@@ -181,7 +175,7 @@ public class ClienteResourceTest {
 	}
 	
 	@Test
-	public void updateClientWithSucess() throws Exception {
+	void updateClientWithSucess() throws Exception {
 		
 		Cliente cliente1 = new  Cliente();
 		
@@ -189,7 +183,7 @@ public class ClienteResourceTest {
 				"nome teste update", 
 				"emailUpdate@teste");
 		
-		doReturn(cliente1).when(clienteService).atualizaCliente(2L, atualizaCliente);
+		doNothing().when(clienteService).atualizaCliente(2L, atualizaCliente);
 		
 		this.mockMvc.perform(put("/clientes/2")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -199,7 +193,7 @@ public class ClienteResourceTest {
 	}
 	
 	@Test
-	public void deleteClientById() throws Exception {
+	void deleteClientById() throws Exception {
 		
 		Cliente cliente1 = new  Cliente(
 				2L,
@@ -216,7 +210,7 @@ public class ClienteResourceTest {
 	}
 	
 	@Test
-	public void uploadProfilePictureWithSucess() throws Exception {
+	void uploadProfilePictureWithSucess() throws Exception {
 		
 		MockMultipartFile file = new MockMultipartFile("file", "anything".getBytes());
 		

@@ -1,11 +1,10 @@
 package com.lucasilva.pedidoapp.services;
 
-import javax.mail.internet.MimeMessage;
-
-import org.springframework.mail.SimpleMailMessage;
-
 import com.lucasilva.pedidoapp.domain.Cliente;
 import com.lucasilva.pedidoapp.domain.Pedido;
+import org.springframework.mail.SimpleMailMessage;
+
+import javax.mail.internet.MimeMessage;
 
 public interface EmailService {
 
