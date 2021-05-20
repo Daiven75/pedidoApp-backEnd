@@ -1,0 +1,38 @@
+version: '3'
+services:
+  back-spring:
+    build:
+      dockerfile: dockerfile
+      context: .
+    image: daiven75/pedido-app
+    container_name: back-pedido-app
+    ports:
+    - 8081:8080
+    networks:
+      - rede-pedido-app
+    depends_on:
+      - "banco-mysql"
+    environment:
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: root
+      SPRING.PROFILES.ACTIVE: prod
+      SPRING.JPA.HIBERNATE.DDL-AUTO: create
+      SPRING.DATASOURCE.URL: jdbc:mysql://banco-mysql/pedido-app?useTimezone=true&serverTimezone=UTC
+  banco-mysql:
+    image: mysql:8
+    ports:
+      - '6603:3306'
+    environment:
+      MYSQL_DATABASE: pedido-app
+      MYSQL_ROOT_PASSWORD: root
+    expose:
+      - '3306'
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - rede-pedido-app
+volumes:
+  db-data:
+networks:
+  rede-pedido-app:
+    driver: bridge
